@@ -11,7 +11,8 @@ description: >-
 ## 役割分担
 
 - **本スキル**: ブランチの**命名規則**、**新規ブランチの作成**、**チェックアウト**（作業開始の土台）。
-- **別スキル `github-push`**: ステージング・コミット・プッシュ・HTTPS まわり。ブランチを切った**あと**の共有はそちら。
+- **別スキル `github-push`**: ステージング・コミット・プッシュ・HTTPS まわり（`.cursor/skills/github/github-push/`）。
+- **別スキル `github-pull-request`**: リモートに上がったブランチから **PR を作る**手順（`.cursor/skills/github/github-pull-request/`）。
 
 ## デフォルトブランチ
 
