@@ -33,14 +33,14 @@ const QUIZ_DATA = [
 
 export default function ValorantQuizPage() {
   const [currentStep, setCurrentStep] = useState(0);
-  const [selectedOption, setSelectedOption] = useState(null);
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
   const [score, setScore] = useState(0);
   const [isFinished, setIsFinished] = useState(false);
 
   const currentQuestion = QUIZ_DATA[currentStep];
 
-  const handleSelectOption = (index) => {
+  const handleSelectOption = (index: number) => {
     if (isAnswered) return;
     setSelectedOption(index);
     setIsAnswered(true);

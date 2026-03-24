@@ -11,8 +11,9 @@ description: >-
 
 ## 適用範囲
 
-- **対象**: 既にチェックアウト済みのブランチ上での `add` → `commit` → `push`、および関連する GitHub 操作の案内。
-- **対象外**: feature ブランチの**新規作成・命名・切り替え**は別スキルに任せる（本スキルでは触れないか、ユーザー指示がある場合のみ既存手順に従う）。
+- **対象**: 既にチェックアウト済みのブランチ上での `add` → `commit` → `push`、および関連する Git 操作（HTTPS）。
+- **対象外**: ブランチの**新規作成・命名・切り替え**は **`git-branch` スキル**（`.cursor/skills/github/git-branch/`）に任せる。本スキルでは行わないか、ユーザー指示がある場合のみ `git-branch` と整合する手順に従う。
+- **PR 作成**: **`github-pull-request` スキル**（`.cursor/skills/github/github-pull-request/`）に任せる（push 後に依頼される想定）。
 
 ## 前提
 
@@ -28,22 +29,8 @@ description: >-
 4. **`git add`**（範囲はユーザー指示または変更の妥当性に基づく）。
 5. **`git commit -m "..."`** — 日本語で、変更の要約と理由が分かる一文〜数行。
 6. **`git push origin <現在のブランチ名>`**（またはユーザー指定のリモート・ブランチ）。
-7. **（任意）PR**: GitHub の Web で PR を作成。本文は下記テンプレをベースに、実際の変更に合わせて埋める。
+7. **PR が必要なら** `github-pull-request` スキルに従い、ブラウザで作成する手順・本文案内を行う。
 8. **（任意）タグ・Release**: ユーザーがバージョン公開を求める場合のみ。`git tag` / `git push origin <tag>`、GitHub の Releases 画面での作成を案内（手順のみ。タグ名のポリシーはユーザー確認）。
-
-### PR 本文テンプレ（必要時）
-
-```markdown
-## 概要
-（何を・なぜ変更したか）
-
-## 確認したこと
-- [ ] Docker 内で `npm run lint` / `npm run build` が成功
-- [ ] （該当時）画面・エージェント未検証の挙動をユーザーが確認（URL・手順）
-
-## 備考
-（レビュー時に見てほしい点、既知の制限）
-```
 
 ## プッシュ前の必須チェック（確定ポリシー）
 
@@ -65,8 +52,10 @@ description: >-
 
 ```bash
 docker compose run --rm web npm run lint
-docker compose run --rm web npm run build
+docker compose run --rm -e NODE_ENV=production web npm run build
 ```
+
+`docker-compose.yml` の `web` は `NODE_ENV=development` のため、`next build` だけ **`NODE_ENV=production` を上書き**する（開発サーバー用の compose はそのまま）。
 
 **禁止**: ホストで `npm install` / `npm run lint` / `npm run build` / `npm run dev` 等をエージェントが実行してプッシュ可否を判断すること（方針違反）。
 

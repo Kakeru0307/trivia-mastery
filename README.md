@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TriviaMastery
 
-## Getting Started
+複数ゲームタイトル向けクイズサイトを目指すプロジェクトです。現状は **Valorant** 向けクイズのプロトタイプ（`/valorant`）があります。
 
-First, run the development server:
+運用ルール・構成の詳細はリポジトリルートの [`rule.md`](./rule.md) および [`.cursor/rules/`](./.cursor/rules/) を参照してください。
+
+## 開発環境の起動（推奨: Docker）
+
+本リポジトリでは **Docker 上での開発を標準**としています（ホストで直接 `npm run` する前提の説明は下記「参考」を参照）。
+
+### 前提
+
+- [Docker](https://docs.docker.com/get-docker/)（Windows なら Docker Desktop + WSL2 利用が一般的）
+
+### 起動
+
+リポジトリのルートで:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+docker compose up --build
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+初回はイメージのビルドに時間がかかります。ログに `Ready` が出たらブラウザで次を開きます。
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- トップ: [http://localhost:3000](http://localhost:3000)
+- Valorant クイズ: [http://localhost:3000/valorant](http://localhost:3000/valorant)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+ソースはボリュームマウントされているため、ホスト側で編集するとホットリロードされます。
 
-## Learn More
+### バックグラウンドで動かす場合
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+docker compose up -d --build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+停止:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+docker compose down
+```
 
-## Deploy on Vercel
+### Lint / 本番ビルドの確認（ワンショット）
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+コンテナを常時起動していなくても実行できます。
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+docker compose run --rm web npm run lint
+docker compose run --rm -e NODE_ENV=production web npm run build
+```
+
+`docker-compose.yml` では開発用に `NODE_ENV=development` が設定されているため、`next build` のときだけ上記のように **`NODE_ENV=production` を上書き**します。
+
+---
+
+## 参考: ホストで npm を使う場合
+
+create-next-app 由来の手順です。**チーム運用・CI 想定の標準は Docker 側**です。
+
+```bash
+npm install
+npm run dev
+```
+
+`node_modules` の権限や環境差でつまずく場合は、Docker 手順に切り替えてください。
+
+---
+
+## 技術スタック（概要）
+
+- Next.js 16（App Router）, React 19, TypeScript, Tailwind CSS v4, Framer Motion, Lucide React
+
+詳細は [`.cursor/rules/architecture-frontend.mdc`](./.cursor/rules/architecture-frontend.mdc) を参照。
+
+---
+
+## Next.js 公式リソース
+
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Learn Next.js](https://nextjs.org/learn)

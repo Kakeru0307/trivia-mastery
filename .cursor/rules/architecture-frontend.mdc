@@ -1,0 +1,69 @@
+---
+description: >-
+  TriviaMastery frontend architecture: stack, naming, src layout, UI policy.
+  Pairs with architecture-backend.mdc. Use for UI, フロント, styling, components.
+alwaysApply: false
+globs: src/**/*.{tsx,ts,css}
+---
+
+# TriviaMastery — アーキテクチャ（フロントエンド）
+
+バックエンド方針・フェーズは **`architecture-backend.mdc`**。運用（ブラウザ確認依頼等）は **`triviamastery.mdc`** / **`rule.md`**。
+
+## 採用技術（package ベース）
+
+| 領域 | 採用 |
+|------|------|
+| フレームワーク | **Next.js 16**（App Router） |
+| UI ライブラリ | **React 19** |
+| 言語 | **TypeScript 5** |
+| スタイル | **Tailwind CSS v4**（`@tailwindcss/postcss`） |
+| アニメーション | **Framer Motion**（`motion` / `AnimatePresence`） |
+| アイコン | **Lucide React** |
+| フォント（ルート） | **`next/font/google`** — Geist Sans / Geist Mono（`--font-geist-sans` 等） |
+| Lint | **ESLint** + `eslint-config-next` |
+
+**方針**: ゲーム寄りの没入感の高い UI と、**TypeScript による型安全性**を両立する。
+
+## 命名規則 (Naming Conventions)
+
+- **ルーティング / ディレクトリ**: `kebab-case`（例: `src/app/valorant-quiz/`）
+- **コンポーネントファイル**: `PascalCase`（例: `QuizCard.tsx`）
+- **変数・関数**: `camelCase`（例: `currentStep`, `handleSelectOption`）
+- **定数**: `UPPER_SNAKE_CASE`（例: `QUIZ_DATA`, `MAX_SCORE`）
+- **型 / Interface**: `PascalCase`（例: `QuizQuestion`, `UserSession`）
+- **React コンポーネント名**: `PascalCase`（例: `ValorantQuizPage`）
+- **Props**: `camelCase`（例: `isSelected`, `onClickNext`）
+- **CSS / Tailwind カスタム**: `kebab-case`（Tailwind v4 の `@theme` 拡張等）
+
+## ディレクトリ構成（`src/`）
+
+- **`src/app/`**: ルーティングと各ページ（Page Components）のみ。必要なら **`'use client'`** をページ単位で付与。
+- **`src/components/`**: 再利用可能な UI 部品。
+- **`src/lib/`**: 外部 API（Supabase 等）連携・ユーティリティ。
+- **`src/types/`**: 共有 TypeScript 型定義。
+- **`src/assets/`**: 画像・フォント・静的リソース。
+- **`src/app/globals.css`**: グローバルスタイル・Tailwind エントリ。
+
+## UI / ビジュアル方針
+
+- **トーン**: **ダークベース、強いアクセント、大きめのタイポ・コントラスト**。
+- **プロトタイプ（Valorant）の参考色**: 背景 **ダークネイビー系**（例 `#0F1923`）、アクセント **赤系**（例 `#FF4655`）。他タイトルは**パレットを分けてもよい**。
+- **モーション**: Framer Motion は**軽く**。操作を妨げない。
+- **タイポ**: 見出しは bold / uppercase / tracking で階層をはっきり。
+- **レスポンシブ**: モバイル優先、Tailwind で統一。
+
+## 実装ルール
+
+- **型**: イベント引数、`useState`、クイズデータは **明示的に型付け**（`implicit any` を残さない）。
+- **a11y**: 操作要素は **`button`** 等の適切な要素。`disabled`・フォーカスを意識。
+- **画像**: `next/image` を検討。静的ファイルは `src/assets/`。
+
+## メタデータ・ i18n
+
+- **`layout.tsx` の `metadata`**: プロダクト名に合わせて更新する。
+- **`html lang`**: 日本語 UI が主なら **`ja`** を検討（現状は `en` のことがある）。
+
+## ホーム・ナビ（予定）
+
+- **`/` を各ゲームクイズへのハブ**にする予定。**`architecture-backend.mdc`** のプロダクト節と整合させる。
