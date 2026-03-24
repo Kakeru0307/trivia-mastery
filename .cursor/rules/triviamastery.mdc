@@ -28,6 +28,7 @@ alwaysApply: true
   - **`git-branch/`**: ブランチ命名・作成・チェックアウト。
   - **`github-pull-request/`**: PR 作成（`gh` や API が使えれば実行、不可なら Web 案内）。
 - **`.cursor/skills/explain-code/`**: **途中参加・引き継ぎ向け**に、実装範囲・読む順・起動方法・次の一手を、コードとアーキテクチャ Rule に基づき説明する。
+- **`.cursor/skills/impact-scope/`**: 既存コード**改修前後**に、**影響範囲を ripgrep・意味検索で洗い出す**手順（import・ルート・レイアウト連鎖など）。
 - **運用**: スキルを追加・変更したら **Git でコミット**し、他メンバーや他マシンは `git pull` で揃える。Cursor のバージョンによっては **ネストした `skills/github/...` の検出**に差があるため、一覧に出ない場合は Cursor 側の Skills 設定を確認する。
 - **スキルと運用ルール文書の同期（必須）**: `.cursor/skills/` に **新規スキルを追加**したり、スキルを **移動・分割・リネーム・廃止**したら、**必ず同じ変更セットで** (1) 本ルールおよび **`rule.md` の「`.cursor/` 直下」節**に **当該スキルのパスと役割の一言説明**を追記・修正し、(2) **`.cursor/rules/triviamastery.mdc` と `rule.md` の本文を同一に保つ**。**`SKILL.md` のみ追加・変更して運用ルール文書を直さないままタスク完了とみなさない。**
 - **参照用 Rule の一覧同期**: `.cursor/rules/` に **新しい `.mdc`（運用以外の参照ドキュメント）** を増やしたら、**本節の `.cursor/rules/` 箇条書きにパスと役割を追記**し、**`rule.md` と `triviamastery.mdc` の両方で一覧を同じ内容に更新**する。参照 `.mdc` の**全文を** `triviamastery.mdc` に複製する必要はない。

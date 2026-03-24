@@ -73,6 +73,26 @@ npm run dev
 
 ---
 
+## Supabase（Phase 2: クイズ DB）
+
+1. Supabase の SQL Editor で [`docs/supabase/phase2_schema.sql`](./docs/supabase/phase2_schema.sql) を実行  
+2. `games` / `questions` が作成され、`valorant` のサンプル問題が投入される  
+3. `http://localhost:3000/valorant` を開く  
+   - 上部の黄色通知が消えていれば DB から読み込めています  
+   - 通知が出る場合は env / テーブル / RLS を確認してください
+
+---
+
+## Supabase（Phase 3: スコア履歴）
+
+1. SQL Editor で [`docs/supabase/phase3_scores.sql`](./docs/supabase/phase3_scores.sql) を実行  
+2. ログインした状態で `http://localhost:3000/valorant` を最後までプレイ  
+3. Supabase Table Editor の `quiz_attempts` に、`user_id / game_id / correct_answers` が追加されることを確認
+
+> 未ログイン時は保存せず、結果画面にメッセージを表示します。
+
+---
+
 ## Next.js 公式リソース
 
 - [Next.js Documentation](https://nextjs.org/docs)
