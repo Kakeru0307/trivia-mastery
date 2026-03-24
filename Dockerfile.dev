@@ -1,0 +1,15 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# npm install の結果をキャッシュするため、先に package.json をコピー
+COPY package.json package-lock.json* ./
+RUN npm install
+
+# アプリのソースコードをコピー
+COPY . .
+
+EXPOSE 3000
+
+# 開発用サーバーを起動
+CMD ["npm", "run", "dev"]
