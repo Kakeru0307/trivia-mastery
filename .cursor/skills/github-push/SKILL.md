@@ -12,7 +12,7 @@ description: >-
 ## 適用範囲
 
 - **対象**: 既にチェックアウト済みのブランチ上での `add` → `commit` → `push`、および関連する GitHub 操作の案内。
-- **対象外**: feature ブランチの**新規作成・命名・切り替え**は別スキルに任せる（本スキルでは触れないか、ユーザー指示がある場合のみ既存手順に従う）。
+- **対象外**: ブランチの**新規作成・命名・切り替え**は **`git-branch` スキル**（`.cursor/skills/git-branch/`）に任せる。本スキルでは行わないか、ユーザー指示がある場合のみ `git-branch` と整合する手順に従う。
 
 ## 前提
 
@@ -65,8 +65,10 @@ description: >-
 
 ```bash
 docker compose run --rm web npm run lint
-docker compose run --rm web npm run build
+docker compose run --rm -e NODE_ENV=production web npm run build
 ```
+
+`docker-compose.yml` の `web` は `NODE_ENV=development` のため、`next build` だけ **`NODE_ENV=production` を上書き**する（開発サーバー用の compose はそのまま）。
 
 **禁止**: ホストで `npm install` / `npm run lint` / `npm run build` / `npm run dev` 等をエージェントが実行してプッシュ可否を判断すること（方針違反）。
 
